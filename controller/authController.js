@@ -13,7 +13,7 @@ const bcrypt = require('bcryptjs');
 
 
 const { v4: uuidv4 } = require('uuid');
-const { Organisation} = require('../db/models');
+const  Organisation = require('../db/models/organisation');
 
 const generateToken = (payload) => {
     return jwt.sign(payload, process.env.JWT_SECRET_KEY, {
