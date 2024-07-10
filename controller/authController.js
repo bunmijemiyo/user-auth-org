@@ -8,7 +8,7 @@ const AppError = require('../utils/appError');
 // const bcrypt = require('bcrypt');
 
 // To this
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 
 
 const { v4: uuidv4 } = require('uuid');
