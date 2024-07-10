@@ -155,7 +155,7 @@ module.exports = user;
 
 
 const { Model, DataTypes } = require('sequelize');
-const bcrypt = require('bcrypt');
+// const bcrypt = require('bcrypt');
 const sequelize = require('../../config/database');
 const AppError = require('../../utils/appError');
 const Organisation = require('./organisation'); // Import Organisation model
@@ -236,14 +236,14 @@ User.init(
     },
     confirmPassword: {
       type: DataTypes.VIRTUAL,
-      set(value) {
-        if (value === this.password) {
-          const hashPassword = bcrypt.hashSync(value, 10);
-          this.setDataValue('password', hashPassword);
-        } else {
-          throw new AppError('Password and confirm password must be the same', 400);
-        }
-      },
+      // set(value) {
+      //   if (value === this.password) {
+      //     const hashPassword = bcrypt.hashSync(value, 10);
+      //     this.setDataValue('password', hashPassword);
+      //   } else {
+      //     throw new AppError('Password and confirm password must be the same', 400);
+      //   }
+      // },
     },
     createdAt: {
       allowNull: false,
