@@ -5,6 +5,8 @@ const { Sequelize } = require('sequelize');
 
 const env = process.env.NODE_ENV || 'development';
 const config = require('./config');
+
+const pg = require('pg')
 /*
 // const sequelize = new Sequelize(config[env]);
 const sequelize = new Sequelize(process.env.POSTGRES_URL)
@@ -41,8 +43,16 @@ module.exports = pool
 
 // )
 
+
+
+
+
+// const sequelize = new Sequelize(process.env.POSTGRES_URL, {
+//   dialectModule: pg
+// });
+
 const sequelize = new Sequelize(process.env.POSTGRES_URL + "?sslmode=require", {
-    dialect: 'postgres'
+    dialectModule: pg
    })
 
 module.exports = sequelize
