@@ -23,6 +23,8 @@ const generateToken = (payload) => {
 const signup = catchAsync(async (req, res, next) => {
     const body = req.body;
 
+    if(user) console.log('user', user)
+
     // if (!['1', '2'].includes(body.userType)) {
     //     throw new AppError('Invalid user Type', 400);
     // }
