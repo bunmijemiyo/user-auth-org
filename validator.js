@@ -1,3 +1,5 @@
+/*
+
 const { body, validationResult } = require('express-validator');
 
 exports.validateRegistration = [
@@ -49,3 +51,5 @@ exports.validateLogin = [
       next();
     }
   ];
+
+  */
