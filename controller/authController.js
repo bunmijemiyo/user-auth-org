@@ -117,6 +117,26 @@ const signup = catchAsync(async (req, res, next) => {
 const signup = catchAsync(async (req, res, next) => {
     const body = req.body;
 
+    const { firstName, lastName, email, password, phone } = req.body;
+	// console.log(req.body);
+	// Validate input fields
+	if (!firstName || !lastName || !email || !password) {
+		return res.status(422).json({
+			errors: [
+				{
+					field: !firstName
+						? "firstName"
+						: !lastName
+						? "lastName"
+						: !email
+						? "email"
+						: "password",
+					message: "This field is required",
+				},
+			],
+		});
+	}
+
     // Check if user exists
     const existingUser = await user.findOne({
         where: {
@@ -137,7 +157,7 @@ const signup = catchAsync(async (req, res, next) => {
         email: body.email,
         phone: body.phone,
         password: await bcrypt.hash(body.password, 12), // Hash password
-        confirmPassword: body.confirmPassword,
+        // confirmPassword: body.confirmPassword,
     });
 
     if (!newUser) {
