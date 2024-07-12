@@ -116,8 +116,7 @@ const signup = catchAsync(async (req, res, next) => {
 const signup = catchAsync(async (req, res, next) => {
     const body = req.body;
 
-    // if (user) console.log('user', user);
-
+    // Check if user exists
     const existingUser = await user.findOne({
         where: {
             email: body.email,
@@ -129,6 +128,7 @@ const signup = catchAsync(async (req, res, next) => {
         return next(new AppError('Email already exists', 400));
     }
 
+    // Create new user
     const newUser = await user.create({
         userId: uuidv4(),
         firstName: body.firstName,
@@ -143,6 +143,7 @@ const signup = catchAsync(async (req, res, next) => {
         return next(new AppError('Registration Unsuccessful', 400));
     }
 
+    // Create default organisation
     const organisationName = `${body.firstName}'s Organisation`;
     const orgId = uuidv4();
     const newOrganisation = await Organisation.create({
@@ -151,7 +152,11 @@ const signup = catchAsync(async (req, res, next) => {
     });
 
     try {
-        await newUser.addOrganisation(newOrganisation); // Ensure this method exists
+        // Directly create entry in the UserOrganisation join table
+        await UserOrganisation.create({
+            userId: newUser.userId,
+            orgId: newOrganisation.orgId
+        });
     } catch (error) {
         console.error('Error associating user with organisation:', error);
         return next(new AppError('Registration Unsuccessful', 400));
@@ -174,6 +179,7 @@ const signup = catchAsync(async (req, res, next) => {
         data: result,
     });
 });
+
 
 
 
