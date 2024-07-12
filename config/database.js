@@ -51,30 +51,30 @@ module.exports = pool
 //   dialectModule: pg
 // });
 
-// const sequelize = new Sequelize(process.env.POSTGRES_URL + "?sslmode=require", {
-//     dialectModule: pg
-//    })
+const sequelize = new Sequelize(process.env.POSTGRES_URL + "?sslmode=require", {
+    dialectModule: pg
+   })
 
 
-const sequelize = new Sequelize(
-  process.env.POSTGRES_DATABASE,
-  process.env.POSTGRES_USER,
-  process.env.POSTGRES_PASSWORD,
+// const sequelize = new Sequelize(
+//   process.env.POSTGRES_DATABASE,
+//   process.env.POSTGRES_USER,
+//   process.env.POSTGRES_PASSWORD,
   
-  {
-    host: process.env.POSTGRES_URL,
-    dialect: "postgres",
-    dialectModule: pg,
-    port: process.env.DB_PORT,
-    logging: false,
-    dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false
-      }
-    }
-  }
+//   {
+//     host: process.env.POSTGRES_URL,
+//     dialect: "postgres",
+//     dialectModule: pg,
+//     port: process.env.DB_PORT,
+//     logging: false,
+//     dialectOptions: {
+//       ssl: {
+//         require: true,
+//         rejectUnauthorized: false
+//       }
+//     }
+//   }
   
- )
+//  )
 
 module.exports = sequelize
