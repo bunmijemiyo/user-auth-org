@@ -21,6 +21,7 @@ const generateToken = (payload) => {
     });
 };
 
+/*
 const signup = catchAsync(async (req, res, next) => {
     const body = req.body;
 
@@ -103,6 +104,69 @@ const signup = catchAsync(async (req, res, next) => {
     // result.token = generateToken({
     //     id: result.userId,
     // });
+
+    return res.status(201).json({
+        status: 'success',
+        message: "Registration successful",
+        data: result,
+    });
+});
+*/
+
+const signup = catchAsync(async (req, res, next) => {
+    const body = req.body;
+
+    // if (user) console.log('user', user);
+
+    const existingUser = await user.findOne({
+        where: {
+            email: body.email,
+            deletedAt: null
+        },
+    });
+
+    if (existingUser) {
+        return next(new AppError('Email already exists', 400));
+    }
+
+    const newUser = await user.create({
+        userId: uuidv4(),
+        firstName: body.firstName,
+        lastName: body.lastName,
+        email: body.email,
+        phone: body.phone,
+        password: await bcrypt.hash(body.password, 12), // Hash password
+        confirmPassword: body.confirmPassword,
+    });
+
+    if (!newUser) {
+        return next(new AppError('Registration Unsuccessful', 400));
+    }
+
+    const organisationName = `${body.firstName}'s Organisation`;
+    const orgId = uuidv4();
+    const newOrganisation = await Organisation.create({
+        name: organisationName,
+        orgId,
+    });
+
+    try {
+        await newUser.addOrganisation(newOrganisation); // Ensure this method exists
+    } catch (error) {
+        console.error('Error associating user with organisation:', error);
+        return next(new AppError('Registration Unsuccessful', 400));
+    }
+
+    const result = {
+        userId: newUser.userId,
+        email: newUser.email,
+        firstName: newUser.firstName,
+        lastName: newUser.lastName,
+        phone: newUser.phone,
+        token: generateToken({
+            id: newUser.userId,
+        }),
+    };
 
     return res.status(201).json({
         status: 'success',
