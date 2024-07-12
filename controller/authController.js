@@ -33,6 +33,7 @@ const signup = catchAsync(async (req, res, next) => {
     const existingUser = await user.findOne({
         where: {
             email: body.email,
+            deletedAt: null
         },
     });
 
